@@ -21,6 +21,7 @@ __pycache__/
 .env.test.local
 .env.production.local
 ui_vision.md
+src_own_mobile.zip
 
 npm-debug.log*
 yarn-debug.log*
