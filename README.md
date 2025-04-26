@@ -1,25 +1,12 @@
-# 🎰 dogbot-ui – Bell-O-Mat
+# React + Vite
 
-**Bell-O-Mat** ist das Web-Frontend von DogBot: Eine liebevoll gestaltete React-App, in der Mensch und Hund über ein Dosentelefon miteinander sprechen.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-GPT übernimmt die Stimme des Hundes – das Bild rotiert wie bei einem Spielautomaten und bleibt bei einer zufälligen Mensch-Hund-Kombination stehen.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 🔧 Lokale Entwicklung
+## Expanding the ESLint configuration
 
-```bash
-git clone https://github.com/kemperfekt/dogbot-ui.git
-cd dogbot-ui
-npm install
-npm start
-
-## 📦 Verwendete Technologien
-⚛️ React
-💨 Tailwind CSS (optional – kann nachgerüstet werden)
-🎞️ Framer Motion – Animation der Slot Machine
-
-## 📚 Verwandte Repos
-🧠 GPT-gestützter Diagnose-Agent: https://github.com/kemperfekt/dogbot-agent
-🗃️ JSON-Inhalte & Weaviate-Daten: https://github.com/kemperfekt/dogbot-ops
-🐶 Project meta-repo with vision and coordination: https://github.com/kemperfekt/dogbot
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
