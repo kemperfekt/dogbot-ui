@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function App() {
+export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
@@ -9,7 +9,7 @@ function App() {
     setMessages((prev) => [...prev, { from: "user", text: input }]);
     setInput("");
 
-    // Simulierte Antwort vom Hund
+    // Hier kannst du später den Hund antworten lassen
     setTimeout(() => {
       setMessages((prev) => [...prev, { from: "dog", text: "Wuff! 🐾" }]);
     }, 1000);
@@ -17,8 +17,8 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen bg-muted text-foreground">
-      {/* Chatbereich */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      {/* Chatverlauf */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-2">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -33,7 +33,7 @@ function App() {
         ))}
       </div>
 
-      {/* Eingabebereich */}
+      {/* Eingabefeld */}
       <div className="p-4 bg-background flex gap-2">
         <input
           type="text"
@@ -53,5 +53,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
