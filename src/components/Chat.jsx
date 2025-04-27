@@ -69,7 +69,15 @@ function Chat() {
         {messages.map((msg, idx) => (
           <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
         ))}
-        {loading && <MessageBubble text="DogBot is thinking..." sender="bot" />}
+        {loading && (
+          <div className="flex justify-start mb-2">
+            <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800 animate-pulse">
+              <span className="dot">.</span>
+              <span className="dot">.</span>
+              <span className="dot">.</span>
+            </div>
+          </div>
+        )}
       </div>
       <div className="p-4 border-t flex">
         <input
@@ -78,13 +86,13 @@ function Chat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Type your message..."
+          placeholder="Schreib' hier..."
         />
         <button
           className="p-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600"
           onClick={sendMessage}
         >
-          Send
+          Wuff
         </button>
       </div>
     </div>
