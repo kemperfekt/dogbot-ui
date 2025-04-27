@@ -6,14 +6,13 @@ function Chat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
-  const [diagnosisDone, setDiagnosisDone] = useState(false);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    if (diagnosisDone) {
+    // Immer neue Session bei neuem Input, wenn keine Session existiert
+    if (!sessionId) {
       setMessages([]);
-      setDiagnosisDone(false);
     }
 
     const userMessage = { text: input, sender: 'user' };
@@ -42,16 +41,18 @@ function Chat() {
         setSessionId(data.session_id);
       }
 
-      const botMessage = { text: data.message, sender: 'bot' };
+      const botMessage = { text: data.message, sender: data.message.startsWith('Fehler') ? 'error' : 'bot' };
       setMessages(prev => [...prev, botMessage]);
 
-      if (data.done) {
+      if (data.done || botMessage.sender === 'error') {
+        // Immer Session beenden, auch bei Fehler
         setSessionId(null);
-        setDiagnosisDone(true);
-        setMessages(prev => [...prev, { text: "Diagnosis completed. Please enter a new symptom to start again.", sender: 'system' }]);
+        setMessages(prev => [...prev, { text: "Bitte gib ein neues Symptom ein, um neu zu starten.", sender: 'system' }]);
       }
     } catch (error) {
       console.error('Error fetching response:', error);
+      setSessionId(null);
+      setMessages(prev => [...prev, { text: "Serverfehler. Bitte später erneut versuchen.", sender: 'error' }]);
     } finally {
       setLoading(false);
     }
@@ -71,10 +72,12 @@ function Chat() {
         ))}
         {loading && (
           <div className="flex justify-start mb-2">
-            <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800 animate-pulse">
-              <span className="dot">.</span>
-              <span className="dot">.</span>
-              <span className="dot">.</span>
+            <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800">
+              <div className="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </div>
           </div>
         )}
