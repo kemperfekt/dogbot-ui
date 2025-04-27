@@ -1,12 +1,45 @@
-# React + Vite
+## 🐶 dogbot-ui
+DogBot gives your dog a voice.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+It’s an empathetic AI agent that helps you understand your dog’s behavior — powered by GPT-4 and a semantic database (Weaviate).
+Together, they translate symptoms into insights and support you with clear, kind guidance.
 
-Currently, two official plugins are available:
+This repo contains the frontend: a React app that connects to the DogBot agent and provides a clean, mobile-first chat interface.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔧 Local Setup
+Clone the repo and install dependencies:
 
-## Expanding the ESLint configuration
+```bash
+git clone https://github.com/kemperfekt/dogbot-ui.git
+cd dogbot-ui
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧪 Start the Frontend
+```bash
+npm start
+```
+- Available at http://localhost:3000
+- Make sure the DogBot agent backend is running locally or update the API URL in `src/components/Chat.jsx`.
+
+## 🔑 Required Environment
+No environment variables are needed for the frontend itself.  
+However, ensure the backend (`dogbot-agent`) has its environment configured properly.
+
+## 📦 Tech Stack
+- React 18 – lightweight, component-based frontend library
+- Tailwind CSS 3.4 – utility-first CSS framework for rapid UI development
+- Fetch API – native JavaScript API for server communication
+- Create React App (CRA) – project scaffolding
+- Mobile-first, responsive design
+
+## 🔄 How It Works
+- The user enters a question or describes a symptom in the chat interface
+- The frontend sends the input via POST request to the DogBot agent API (`/api/chat`)
+- GPT processes the message, optionally retrieves relevant data from Weaviate, and generates a response
+- The frontend displays DogBot’s reply in a clean, mobile-optimized chat view
+
+## 📚 Related Repositories
+🔵 Backend (FastAPI + GPT + Weaviate): [dogbot-agent](https://github.com/kemperfekt/dogbot-agent)  
+🟡 Data & Weaviate content: [dogbot-ops](https://github.com/kemperfekt/dogbot-ops)  
+🐶 Project meta-repo with vision and coordination: [dogbot](https://github.com/kemperfekt/dogbot)
