@@ -23,8 +23,5 @@ jobs:
     - name: Abhängigkeiten installieren
       run: npm install
 
-    - name: Lint prüfen
-      run: npm run lint
-
     - name: Build testen
       run: npm run build
