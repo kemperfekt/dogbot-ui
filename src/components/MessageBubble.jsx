@@ -3,8 +3,9 @@ import React from 'react';
 function MessageBubble({ text, sender }) {
   const isUser = sender === 'user';
   const isError = sender === 'error';
-  const label = isUser ? '👤' : isError ? '⚠️' : '🐕';
-  const labelClass = sender === 'bot' ? 'animate-pulse' : '';
+  const isDog = sender === 'dog'; // <<< NEU: explizit Hund erkennen
+  const label = isUser ? '👤' : isError ? '⚠️' : isDog ? '🐾' : '🐕';
+  const labelClass = sender === 'bot' || isDog ? 'animate-pulse' : '';
 
   let bubbleStyle = 'px-4 py-2 rounded-lg max-w-xs';
   if (isUser) {

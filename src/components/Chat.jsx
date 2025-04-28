@@ -63,6 +63,13 @@ function Chat() {
     }
   };
 
+  // <<< Begrüßungsnachricht direkt beim Start
+  useEffect(() => {
+    const welcomeText = "Wuff! Schön, dass du hier bist. Ich helfe dir gern!";
+    const welcomeMessage = { text: welcomeText, sender: 'dog' };
+    setMessages([welcomeMessage]);
+  }, []);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]); // <<< Autoscroll immer bei neuen Nachrichten
