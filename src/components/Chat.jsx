@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 
 function Chat() {
@@ -6,11 +6,11 @@ function Chat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
+  const bottomRef = useRef(null); // <<< Ref für Autoscroll
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    // Immer neue Session bei neuem Input, wenn keine Session existiert
     if (!sessionId) {
       setMessages([]);
     }
@@ -45,7 +45,6 @@ function Chat() {
       setMessages(prev => [...prev, botMessage]);
 
       if (data.done || botMessage.sender === 'error') {
-        // Immer Session beenden, auch bei Fehler
         setSessionId(null);
         setMessages(prev => [...prev, { text: "Bitte gib ein neues Symptom ein, um neu zu starten.", sender: 'system' }]);
       }
@@ -64,6 +63,10 @@ function Chat() {
     }
   };
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]); // <<< Autoscroll immer bei neuen Nachrichten
+
   return (
     <div className="flex flex-col w-full max-w-md h-[90vh] bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="flex-1 p-4 overflow-y-auto">
@@ -81,6 +84,7 @@ function Chat() {
             </div>
           </div>
         )}
+        <div ref={bottomRef} />
       </div>
       <div className="p-4 border-t flex">
         <input
