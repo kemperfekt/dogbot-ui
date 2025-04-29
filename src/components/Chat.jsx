@@ -21,20 +21,22 @@ function Chat() {
     setLoading(true);
 
     try {
-      let response;
-      if (!sessionId) {
-        response = await fetch(`${API_URL}/diagnose_start`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ symptom_input: input }),
-        });
-      } else {
-        response = await fetch(`${API_URL}/diagnose_continue`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ session_id: sessionId, answer: input }),
-        });
-      }
+  const apiUrl = process.env.REACT_APP_API_URL;
+  let response;
+
+  if (!sessionId) {
+    response = await fetch(`${apiUrl}/diagnose_start`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symptom_input: input }),
+    });
+  } else {
+    response = await fetch(`${apiUrl}/diagnose_continue`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId, answer: input }),
+    });
+  }
 
       const data = await response.json();
       if (!sessionId) {
