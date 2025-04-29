@@ -21,7 +21,7 @@ function Chat() {
     setLoading(true);
 
     try {
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   let response;
 
   if (!sessionId) {
