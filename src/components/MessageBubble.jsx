@@ -18,14 +18,17 @@ function MessageBubble({ text, sender }) {
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} items-start mb-2`}>
-      {!isUser && (
-        <div className="flex-shrink-0 w-7 h-7 rounded-full bg-blue-100 text-sm flex items-center justify-center mr-2">
+      {isUser && (
+        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-200 text-xs flex items-center justify-center ml-2">
           <span className={labelClass}>{label}</span>
         </div>
       )}
-      <div className={bubbleStyle}>
-        {text}
-      </div>
+      <div className={bubbleStyle}>{text}</div>
+      {!isUser && (
+        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-xs flex items-center justify-center mr-2">
+          <span className={labelClass}>{label}</span>
+        </div>
+      )}
     </div>
   );
 }
