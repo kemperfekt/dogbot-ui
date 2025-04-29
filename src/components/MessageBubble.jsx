@@ -4,7 +4,8 @@ function MessageBubble({ text, sender }) {
   const isUser = sender === 'user';
   const isError = sender === 'error';
   const isDog = sender === 'dog';
-  const label = isUser ? '👤' : isError ? '⚠️' : isDog ? '🐾' : '🐕';
+
+  const label = isUser ? '👣' : isError ? '⚠️' : isDog ? '🐾' : '🐕';
   const labelClass = sender === 'bot' || isDog ? 'animate-pulse' : '';
 
   let bubbleStyle = 'px-4 py-2 rounded-2xl max-w-[80%] text-sm';
