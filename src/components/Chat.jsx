@@ -23,13 +23,13 @@ function Chat() {
     try {
       let response;
       if (!sessionId) {
-        response = await fetch('${API_URL}/diagnose_start', {
+        response = await fetch(`${API_URL}/diagnose_start`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ symptom_input: input }),
         });
       } else {
-        response = await fetch('${API_URL}/diagnose_continue', {
+        response = await fetch(`${API_URL}/diagnose_continue`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ session_id: sessionId, answer: input }),
