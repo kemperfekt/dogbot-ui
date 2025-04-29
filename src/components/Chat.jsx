@@ -95,12 +95,8 @@ function Chat() {
         <div ref={bottomRef} />
         {loading && (
           <div className="flex justify-start mb-2">
-            <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800">
-              <div className="typing-indicator">
-                <span className="dot"></span>
-                <span className="dot"></span>
-                <span className="dot"></span>
-              </div>
+            <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800 text-sm">
+              ...
             </div>
           </div>
         )}
@@ -111,14 +107,14 @@ function Chat() {
       <div className="p-2 border-t flex bg-white">
         <input
           type="text"
-          className="flex-1 p-2 border rounded-l-md focus:outline-none text-black"
+          className="flex-1 p-2 border rounded-l-md focus:outline-none text-black text-sm"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Schreib' hier..."
         />
         <button
-          className="p-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600"
+          className="p-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600 text-sm"
           onClick={sendMessage}
         >
           Wuff
