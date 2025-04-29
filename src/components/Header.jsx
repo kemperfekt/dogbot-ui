@@ -8,7 +8,7 @@ function Header() {
         <img src="/logo.png" alt="Logo" className="w-8 h-8 rounded-full" />
         <div>
           <div className="font-semibold text-base">Nasenblick Pfotenfunk</div>
-          <div className="text-sm text-gray-500 dark:text-gray-400">Direkter Draht zu deinem Hund</div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">Der direkte Draht zu deinem Hund.</div>
         </div>
       </div>
       <a
