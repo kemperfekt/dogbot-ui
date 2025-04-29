@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
-import Header from './Header';
+import Header from './components/Header';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
@@ -79,7 +79,7 @@ function Chat() {
   };
 
   useEffect(() => {
-    const welcomeText = 'Wuff! Schön, dass du hier bist. Ich helfe dir gern!';
+    const welcomeText = 'Wuff! Schön, dass du hier bist. Beschreibe ein Verhalten und ich erkläre es Dir!';
     const welcomeMessage = { text: welcomeText, sender: 'dog' };
     setMessages([welcomeMessage]);
   }, []);
@@ -89,18 +89,17 @@ function Chat() {
   }, [messages, loading]);
 
   return (
-    <div className="flex flex-col w-full h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+    <div className="flex flex-col w-full h-screen bg-white text-black">
       <Header />
-
       <div className="flex-1 overflow-y-auto flex flex-col-reverse px-4 py-2">
         <div ref={bottomRef} />
         {loading && (
           <div className="flex justify-start mb-2">
             <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800">
               <div className="typing-indicator">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span className="dot"></span>
+                <span className="dot"></span>
+                <span className="dot"></span>
               </div>
             </div>
           </div>
@@ -109,11 +108,10 @@ function Chat() {
           <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
         ))}
       </div>
-
-      <div className="p-2 border-t flex bg-white dark:bg-gray-800">
+      <div className="p-2 border-t flex bg-white">
         <input
           type="text"
-          className="flex-1 p-2 border rounded-l-md focus:outline-none"
+          className="flex-1 p-2 border rounded-l-md focus:outline-none text-black"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
