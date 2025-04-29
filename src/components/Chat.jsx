@@ -1,4 +1,3 @@
-// Chat.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 import Header from './Header';
