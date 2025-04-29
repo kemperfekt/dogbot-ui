@@ -4,11 +4,10 @@ function MessageBubble({ text, sender }) {
   const isUser = sender === 'user';
   const isError = sender === 'error';
   const isDog = sender === 'dog';
-
   const label = isUser ? '👣' : isError ? '⚠️' : isDog ? '🐾' : '🐕';
   const labelClass = sender === 'bot' || isDog ? 'animate-pulse' : '';
 
-  let bubbleStyle = 'px-4 py-2 rounded-2xl max-w-[80%] text-sm';
+  let bubbleStyle = 'px-4 py-2 rounded-2xl max-w-[80%] text-sm break-words';
   if (isUser) {
     bubbleStyle += ' bg-blue-500 text-white';
   } else if (isError) {
@@ -24,9 +23,7 @@ function MessageBubble({ text, sender }) {
           <span className={labelClass}>{label}</span>
         </div>
       )}
-      <div className={bubbleStyle}>
-        {text}
-      </div>
+      <div className={bubbleStyle}>{text}</div>
     </div>
   );
 }
