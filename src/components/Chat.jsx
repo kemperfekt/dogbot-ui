@@ -85,15 +85,12 @@ function Chat() {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, loading]);
 
   return (
     <div className="flex flex-col w-full h-screen bg-white">
       <div className="flex-1 overflow-y-auto flex flex-col-reverse px-4 py-2">
         <div ref={bottomRef} />
-        {[...messages].reverse().map((msg, idx) => (
-          <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
-        ))}
         {loading && (
           <div className="flex justify-start mb-2">
             <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800">
@@ -105,6 +102,9 @@ function Chat() {
             </div>
           </div>
         )}
+        {[...messages].reverse().map((msg, idx) => (
+          <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
+        ))}
       </div>
       <div className="p-2 border-t flex bg-white">
         <input
