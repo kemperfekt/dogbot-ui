@@ -1,3 +1,4 @@
+// Chat.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 import Header from './Header';
@@ -11,10 +12,7 @@ function Chat() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-
-    if (!sessionId) {
-      setMessages([]);
-    }
+    if (!sessionId) setMessages([]);
 
     const userMessage = { text: input, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
@@ -23,26 +21,14 @@ function Chat() {
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-      let response;
-
-      if (!sessionId) {
-        response = await fetch(`${apiUrl}/diagnose_start`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ symptom_input: input }),
-        });
-      } else {
-        response = await fetch(`${apiUrl}/diagnose_continue`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ session_id: sessionId, answer: input }),
-        });
-      }
+      const response = await fetch(`${apiUrl}/${sessionId ? 'diagnose_continue' : 'diagnose_start'}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sessionId ? { session_id: sessionId, answer: input } : { symptom_input: input }),
+      });
 
       const data = await response.json();
-      if (!sessionId) {
-        setSessionId(data.session_id);
-      }
+      if (!sessionId) setSessionId(data.session_id);
 
       const botMessage = {
         text: data.message,
@@ -52,36 +38,24 @@ function Chat() {
 
       if (data.done || botMessage.sender === 'error') {
         setSessionId(null);
-        setMessages(prev => [
-          ...prev,
-          {
-            text: 'Bitte gib ein neues Symptom ein, um neu zu starten.',
-            sender: 'system',
-          },
-        ]);
+        setMessages(prev => [...prev, {
+          text: 'Bitte gib ein neues Symptom ein, um neu zu starten.',
+          sender: 'system',
+        }]);
       }
     } catch (error) {
       console.error('Error fetching response:', error);
       setSessionId(null);
-      setMessages(prev => [
-        ...prev,
-        { text: 'Serverfehler. Bitte später erneut versuchen.', sender: 'error' },
-      ]);
+      setMessages(prev => [...prev, { text: 'Serverfehler. Bitte später erneut versuchen.', sender: 'error' }]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
-  };
+  const handleKeyDown = (e) => e.key === 'Enter' && sendMessage();
 
   useEffect(() => {
-    const welcomeText = 'Wuff! Schön, dass du hier bist. Beschreibe ein Verhalten und ich erkläre es Dir!';
-    const welcomeMessage = { text: welcomeText, sender: 'dog' };
-    setMessages([welcomeMessage]);
+    setMessages([{ text: 'Wuff! Schön, dass du hier bist. Beschreibe ein Verhalten und ich erkläre es Dir!', sender: 'dog' }]);
   }, []);
 
   useEffect(() => {
@@ -91,12 +65,16 @@ function Chat() {
   return (
     <div className="flex flex-col w-full h-screen bg-white text-black">
       <Header />
-      <div className="flex-1 overflow-y-auto flex flex-col-reverse px-4 py-2">
+      <div className="flex-1 overflow-y-auto flex flex-col-reverse px-4 py-2 pt-16">
         <div ref={bottomRef} />
         {loading && (
           <div className="flex justify-start mb-2">
-            <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800 text-sm">
-              ...
+            <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800">
+              <div className="typing-indicator">
+                <span className="dot"></span>
+                <span className="dot"></span>
+                <span className="dot"></span>
+              </div>
             </div>
           </div>
         )}
@@ -107,14 +85,14 @@ function Chat() {
       <div className="p-2 border-t flex bg-white">
         <input
           type="text"
-          className="flex-1 p-2 border rounded-l-md focus:outline-none text-black text-sm"
+          className="flex-1 w-full p-2 border rounded-l-md focus:outline-none text-black text-sm"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Schreib' hier..."
         />
         <button
-          className="p-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600 text-sm"
+          className="p-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600"
           onClick={sendMessage}
         >
           Wuff
