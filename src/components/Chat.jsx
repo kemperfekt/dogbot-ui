@@ -6,14 +6,11 @@ function Chat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
-  const bottomRef = useRef(null); // <<< Ref für Autoscroll
+  const bottomRef = useRef(null);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-
-    if (!sessionId) {
-      setMessages([]);
-    }
+    if (!sessionId) setMessages([]);
 
     const userMessage = { text: input, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
@@ -21,27 +18,25 @@ function Chat() {
     setLoading(true);
 
     try {
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-  let response;
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      let response;
 
-  if (!sessionId) {
-    response = await fetch(`${apiUrl}/diagnose_start`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ symptom_input: input }),
-    });
-  } else {
-    response = await fetch(`${apiUrl}/diagnose_continue`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ session_id: sessionId, answer: input }),
-    });
-  }
+      if (!sessionId) {
+        response = await fetch(`${apiUrl}/diagnose_start`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ symptom_input: input }),
+        });
+      } else {
+        response = await fetch(`${apiUrl}/diagnose_continue`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId, answer: input }),
+        });
+      }
 
       const data = await response.json();
-      if (!sessionId) {
-        setSessionId(data.session_id);
-      }
+      if (!sessionId) setSessionId(data.session_id);
 
       const botMessage = { text: data.message, sender: data.message.startsWith('Fehler') ? 'error' : 'bot' };
       setMessages(prev => [...prev, botMessage]);
@@ -60,25 +55,21 @@ function Chat() {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
+    if (e.key === 'Enter') sendMessage();
   };
 
-  // <<< Begrüßungsnachricht direkt beim Start
   useEffect(() => {
     const welcomeText = "Wuff! Schön, dass du hier bist. Ich helfe dir gern!";
-    const welcomeMessage = { text: welcomeText, sender: 'dog' };
-    setMessages([welcomeMessage]);
+    setMessages([{ text: welcomeText, sender: 'dog' }]);
   }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]); // <<< Autoscroll immer bei neuen Nachrichten
+  }, [messages]);
 
   return (
-    <div className="flex flex-col w-full max-w-md h-[90vh] bg-white shadow-lg rounded-lg overflow-hidden">
-      <div className="flex-1 p-4 overflow-y-auto">
+    <div className="flex flex-col w-full max-w-md h-screen bg-gray-100">
+      <div className="flex-1 overflow-y-auto px-4 pt-4 pb-2">
         {messages.map((msg, idx) => (
           <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
         ))}
@@ -95,17 +86,17 @@ function Chat() {
         )}
         <div ref={bottomRef} />
       </div>
-      <div className="p-4 border-t flex">
+      <div className="p-2 bg-white border-t flex">
         <input
           type="text"
-          className="flex-1 p-2 border rounded-l-md focus:outline-none"
+          className="flex-1 p-3 border rounded-l-full focus:outline-none text-sm"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Schreib' hier..."
         />
         <button
-          className="p-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600"
+          className="p-3 bg-blue-500 text-white rounded-r-full hover:bg-blue-600 text-sm"
           onClick={sendMessage}
         >
           Wuff
