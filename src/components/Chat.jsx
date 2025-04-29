@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
-import logo from '../assets/logo-nasenblick-favicon.png';
-import Header from './components/Header';
-
+import Header from './Header';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
@@ -92,26 +90,17 @@ function Chat() {
 
   return (
     <div className="flex flex-col w-full h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
-      <div className="flex items-center justify-between px-4 py-2 border-b bg-white dark:bg-gray-800">
-        <div className="flex items-center space-x-2">
-          <img src={logo} alt="Logo" className="w-8 h-8 rounded-full" />
-          <div>
-            <div className="font-semibold">Nasenblick Pfotenfunk</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Der direkte Draht zu deinem Hund</div>
-          </div>
-        </div>
-        <a href="tel:+491234567890" className="text-blue-500 hover:text-blue-700 text-xl">📞</a>
-      </div>
+      <Header />
 
       <div className="flex-1 overflow-y-auto flex flex-col-reverse px-4 py-2">
         <div ref={bottomRef} />
         {loading && (
           <div className="flex justify-start mb-2">
             <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800">
-              <div className="flex space-x-1 animate-pulse">
-                <span className="w-2 h-2 bg-gray-500 rounded-full"></span>
-                <span className="w-2 h-2 bg-gray-500 rounded-full"></span>
-                <span className="w-2 h-2 bg-gray-500 rounded-full"></span>
+              <div className="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
               </div>
             </div>
           </div>
@@ -124,7 +113,7 @@ function Chat() {
       <div className="p-2 border-t flex bg-white dark:bg-gray-800">
         <input
           type="text"
-          className="flex-1 p-2 border rounded-l-md focus:outline-none break-words"
+          className="flex-1 p-2 border rounded-l-md focus:outline-none"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
