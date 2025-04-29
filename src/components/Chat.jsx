@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
-import Header from './components/Header';
+import Header from './Header';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
