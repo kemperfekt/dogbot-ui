@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 import logo from '../assets/logo-nasenblick-favicon.png';
+import Header from './components/Header';
+
 
 function Chat() {
   const [messages, setMessages] = useState([]);
