@@ -93,11 +93,11 @@ function Chat() {
         <div ref={bottomRef} />
         {loading && (
           <div className="flex justify-start mb-2">
-            <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800">
-              <div className="typing-indicator">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div className="px-3 py-1 rounded-2xl max-w-xs bg-gray-200 text-gray-700 text-sm">
+              <div className="flex space-x-1 animate-pulse">
+                <span className="w-2 h-2 bg-gray-500 rounded-full"></span>
+                <span className="w-2 h-2 bg-gray-500 rounded-full"></span>
+                <span className="w-2 h-2 bg-gray-500 rounded-full"></span>
               </div>
             </div>
           </div>
