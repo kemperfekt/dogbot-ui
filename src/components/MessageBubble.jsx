@@ -6,13 +6,10 @@ function MessageBubble({ text, sender }) {
   const isDog = sender === 'dog';
 
   const label =
-    sender === 'user'
-      ? '👣'
-      : sender === 'dog'
-      ? '🐾'
-      : sender === 'error'
-      ? '⚠️'
-      : '';
+    isUser ? '👣' :
+    isDogOrBot ? '🐾' :
+    isError ? '⚠️' :
+    '';
 
   const labelClass = sender === 'bot' || isDog ? 'animate-pulse' : '';
 
