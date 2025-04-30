@@ -17,7 +17,7 @@ function Footer({ input, onInputChange, onKeyDown, onSend }) {
   }, [input]);
 
   return (
-    <div className="sticky bottom-0 bg-white border-t z-10">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t z-10">
       <div className="flex items-end gap-2 px-4 py-2 max-w-screen-xl mx-auto">
         <textarea
           ref={textareaRef}
