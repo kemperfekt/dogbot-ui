@@ -4,7 +4,16 @@ function MessageBubble({ text, sender }) {
   const isUser = sender === 'user';
   const isError = sender === 'error';
   const isDog = sender === 'dog';
-  const label = isUser ? '👣' : isError ? '⚠️' : isDog ? '🐾' : '🐕';
+
+  const label =
+    sender === 'user'
+      ? '👣'
+      : sender === 'dog'
+      ? '🐾'
+      : sender === 'error'
+      ? '⚠️'
+      : '';
+
   const labelClass = sender === 'bot' || isDog ? 'animate-pulse' : '';
 
   let bubbleStyle = 'px-4 py-2 rounded-2xl max-w-[80%] text-sm break-words';
@@ -18,14 +27,14 @@ function MessageBubble({ text, sender }) {
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} items-start mb-2`}>
-      {isUser && (
-        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-200 text-xs flex items-center justify-center ml-2">
+      {!isUser && (
+        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-xs flex items-center justify-center mr-2">
           <span className={labelClass}>{label}</span>
         </div>
       )}
       <div className={bubbleStyle}>{text}</div>
-      {!isUser && (
-        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-xs flex items-center justify-center mr-2">
+      {isUser && (
+        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-200 text-xs flex items-center justify-center ml-2">
           <span className={labelClass}>{label}</span>
         </div>
       )}
