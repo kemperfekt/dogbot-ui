@@ -6,7 +6,7 @@ import Footer from './Footer';
 function Chat() {
   const [messages, setMessages] = useState([
     {
-      text: 'Wuff! Schön, dass du hier bist. Beschreibe ein Verhalten und ich erkläre es Dir!',
+      text: 'Wuff! Schön, dass du hier bist. Beschreibe ein Problemverhalten und ich erkläre es Dir!',
       sender: 'dog',
     },
   ]);
@@ -26,13 +26,19 @@ function Chat() {
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-      const response = await fetch(`${apiUrl}/${sessionId ? 'diagnose_continue' : 'diagnose_start'}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(sessionId ? { session_id: sessionId, answer: input } : { symptom_input: input }),
-      });
-
-      const data = await response.json();
+      const res = await fetch(
+        `${apiUrl}/${sessionId ? 'diagnose_continue' : 'diagnose_start'}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            sessionId
+              ? { session_id: sessionId, answer: input }
+              : { symptom_input: input }
+          ),
+        }
+      );
+      const data = await res.json();
       if (!sessionId) setSessionId(data.session_id);
 
       const botMessage = {
@@ -51,16 +57,19 @@ function Chat() {
           },
         ]);
       }
-    } catch (error) {
-      console.error('Error fetching response:', error);
+    } catch (err) {
+      console.error('Error fetching response:', err);
       setSessionId(null);
-      setMessages(prev => [...prev, { text: 'Serverfehler. Bitte später erneut versuchen.', sender: 'error' }]);
+      setMessages(prev => [
+        ...prev,
+        { text: 'Serverfehler. Bitte später erneut versuchen.', sender: 'error' },
+      ]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = e => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -73,16 +82,18 @@ function Chat() {
 
   return (
     <div className="flex justify-center bg-gray-100 text-black min-h-[100dvh]">
-      <div className="flex flex-col w-full max-w-screen-sm bg-white pt-0">
+      <div className="flex flex-col w-full max-w-screen-xl bg-white">
         <Header />
         <div className="flex-1 overflow-y-auto px-4 py-2 flex flex-col-reverse">
           <div ref={bottomRef} />
           {loading && (
             <div className="flex justify-start mb-2 px-4">
-              <div className="typing-indicator">
-                <span className="dot"></span>
-                <span className="dot"></span>
-                <span className="dot"></span>
+              <div className="flex px-4 py-2 rounded-2xl max-w-[80%] bg-gray-200 justify-center">
+                <div className="typing-indicator flex items-center gap-1">
+                  <span className="dot"></span>
+                  <span className="dot"></span>
+                  <span className="dot"></span>
+                </div>
               </div>
             </div>
           )}

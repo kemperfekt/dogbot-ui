@@ -1,3 +1,4 @@
+// src/components/Footer.jsx
 import React, { useRef, useEffect } from 'react';
 
 function Footer({ input, onInputChange, onKeyDown, onSend }) {
@@ -16,14 +17,14 @@ function Footer({ input, onInputChange, onKeyDown, onSend }) {
   }, [input]);
 
   return (
-    <div className="bg-white border-t">
-      <div className="flex items-end gap-2 px-4 py-2 max-w-screen-sm mx-auto">
+    <div className="sticky bottom-0 bg-white border-t z-10">
+      <div className="flex items-end gap-2 px-4 py-2 max-w-screen-xl mx-auto">
         <textarea
           ref={textareaRef}
           rows={1}
           className="flex-1 p-2 border rounded-md resize-none focus:outline-none text-sm text-black overflow-auto max-h-32"
           value={input}
-          onChange={(e) => {
+          onChange={e => {
             onInputChange(e.target.value);
             autoResize();
           }}
@@ -32,6 +33,7 @@ function Footer({ input, onInputChange, onKeyDown, onSend }) {
           placeholder="Schreib' hier..."
         />
         <button
+          type="button"
           className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex-shrink-0"
           onClick={onSend}
         >
