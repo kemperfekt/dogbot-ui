@@ -86,15 +86,7 @@ function Chat() {
           }}
         >
           <div ref={bottomRef} />
-          {loading && (
-            <div style={{ display: 'flex', padding: '0.5rem 1rem' }}>
-              <div className="typing-indicator" style={{ display: 'flex', gap: '4px' }}>
-                <span className="dot"></span>
-                <span className="dot"></span>
-                <span className="dot"></span>
-              </div>
-            </div>
-          )}
+          {loading && <MessageBubble text="" sender="typing" />}
           {[...messages].reverse().map((msg, idx) => (
             <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
           ))}

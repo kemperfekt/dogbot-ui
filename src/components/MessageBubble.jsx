@@ -4,37 +4,73 @@ function MessageBubble({ text, sender }) {
   const isUser = sender === 'user';
   const isError = sender === 'error';
   const isDogOrBot = sender === 'dog' || sender === 'bot';
+  const isTyping = sender === 'typing';
 
   const label = isUser
     ? '👣'
-    : isDogOrBot
+    : isDogOrBot || isTyping
     ? '🐾'
     : isError
     ? '⚠️'
     : '';
 
-  const labelClass = '';
+  const labelStyle = {
+    width: '24px',
+    height: '24px',
+    borderRadius: '9999px',
+    fontSize: '14px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    backgroundColor: isUser ? '#bfdbfe' : '#dbeafe',
+    marginLeft: isUser ? '8px' : '0',
+    marginRight: !isUser ? '8px' : '0',
+  };
 
-  let bubbleStyle = 'px-4 py-2 rounded-2xl max-w-[80%] text-sm break-words';
-  if (isUser) {
-    bubbleStyle += ' bg-blue-500 text-white';
-  } else if (isError) {
-    bubbleStyle += ' bg-red-500 text-white';
-  } else {
-    bubbleStyle += ' bg-white text-gray-800 border';
-  }
+  const bubbleStyle = {
+    padding: '8px 12px',
+    borderRadius: '16px',
+    maxWidth: '80%',
+    fontSize: '0.875rem',
+    wordBreak: 'break-word',
+    backgroundColor: isUser
+      ? '#3b82f6'
+      : isError
+      ? '#ef4444'
+      : '#f3f4f6',
+    color: isUser || isError ? '#fff' : '#111827',
+    border: !isUser && !isError ? '1px solid #e5e7eb' : 'none',
+  };
 
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} items-start mb-2`}>
+    <div
+      className="message-row"
+      style={{
+        display: 'flex',
+        justifyContent: isUser ? 'flex-end' : 'flex-start',
+        alignItems: 'flex-start',
+        marginBottom: '8px',
+        padding: '0 12px',
+      }}
+    >
       {!isUser && (
-        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-xs flex items-center justify-center mr-2">
-          <span className={labelClass}>{label}</span>
+        <div style={labelStyle}>
+          <span>{label}</span>
         </div>
       )}
-      <div className={bubbleStyle}>{text}</div>
+      {isTyping ? (
+        <div style={{ ...bubbleStyle, display: 'flex', gap: '4px' }}>
+          <span className="dot" />
+          <span className="dot" />
+          <span className="dot" />
+        </div>
+      ) : (
+        <div style={bubbleStyle}>{text}</div>
+      )}
       {isUser && (
-        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-200 text-xs flex items-center justify-center ml-2">
-          <span className={labelClass}>{label}</span>
+        <div style={labelStyle}>
+          <span>{label}</span>
         </div>
       )}
     </div>
