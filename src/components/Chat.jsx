@@ -3,7 +3,12 @@ import MessageBubble from './MessageBubble';
 import Header from './Header';
 
 function Chat() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      text: 'Wuff! Schön, dass du hier bist. Beschreibe ein Verhalten und ich erkläre es Dir!',
+      sender: 'dog',
+    },
+  ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
@@ -11,7 +16,7 @@ function Chat() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    if (!sessionId) setMessages([]);
+    if (!sessionId) setSessionId(null); // Session bleibt null beim Neustart
 
     const userMessage = { text: input, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
@@ -37,10 +42,13 @@ function Chat() {
 
       if (data.done || botMessage.sender === 'error') {
         setSessionId(null);
-        setMessages(prev => [...prev, {
-          text: 'Bitte gib ein neues Symptom ein, um neu zu starten.',
-          sender: 'system',
-        }]);
+        setMessages(prev => [
+          ...prev,
+          {
+            text: 'Bitte gib ein neues Symptom ein, um neu zu starten.',
+            sender: 'system',
+          },
+        ]);
       }
     } catch (error) {
       console.error('Error fetching response:', error);
@@ -52,10 +60,6 @@ function Chat() {
   };
 
   const handleKeyDown = (e) => e.key === 'Enter' && sendMessage();
-
-  useEffect(() => {
-    setMessages([{ text: 'Wuff! Schön, dass du hier bist. Beschreibe ein Verhalten und ich erkläre es Dir!', sender: 'dog' }]);
-  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
