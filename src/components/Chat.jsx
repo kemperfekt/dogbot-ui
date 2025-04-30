@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 import Header from './Header';
+import Footer from './Footer';
 
 function Chat() {
   const [messages, setMessages] = useState([
@@ -13,7 +14,6 @@ function Chat() {
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
   const bottomRef = useRef(null);
-  const textareaRef = useRef(null);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -67,14 +67,6 @@ function Chat() {
     }
   };
 
-  const autoResize = () => {
-    const el = textareaRef.current;
-    if (el) {
-      el.style.height = 'auto';
-      el.style.height = Math.min(el.scrollHeight, 128) + 'px';
-    }
-  };
-
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
@@ -98,29 +90,12 @@ function Chat() {
             <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
           ))}
         </div>
-        <div className="px-4 py-2 border-t bg-white">
-          <div className="flex items-end gap-2">
-            <textarea
-              ref={textareaRef}
-              rows={1}
-              className="flex-1 p-2 border rounded-md resize-none focus:outline-none text-sm text-black overflow-auto max-h-32"
-              value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-                autoResize();
-              }}
-              onInput={autoResize}
-              onKeyDown={handleKeyDown}
-              placeholder="Schreib' hier..."
-            />
-            <button
-              className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex-shrink-0"
-              onClick={sendMessage}
-            >
-              Wuff
-            </button>
-          </div>
-        </div>
+        <Footer
+          input={input}
+          onInputChange={setInput}
+          onKeyDown={handleKeyDown}
+          onSend={sendMessage}
+        />
       </div>
     </div>
   );
