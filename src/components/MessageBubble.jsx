@@ -13,7 +13,7 @@ function MessageBubble({ text, sender }) {
     ? '⚠️'
     : '';
 
-  const labelClass = isDogOrBot ? 'animate-pulse' : '';
+  const labelClass = '';
 
   let bubbleStyle = 'px-4 py-2 rounded-2xl max-w-[80%] text-sm break-words';
   if (isUser) {
