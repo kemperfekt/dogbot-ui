@@ -84,7 +84,13 @@ function Chat() {
     <div className="flex justify-center bg-gray-100 text-black min-h-[100dvh] overflow-x-hidden">
       <div className="flex flex-col w-full max-w-screen-xl bg-white">
         <Header />
-        <div className="flex-1 overflow-y-auto px-4 py-2 flex flex-col-reverse">
+        <div
+          className="flex-1 overflow-y-auto px-4 py-2 flex flex-col-reverse"
+          style={{
+            paddingTop: 'calc(env(safe-area-inset-top) + 56px)',
+            paddingBottom: 'calc(env(safe-area-inset-bottom) + 64px)',
+          }}
+        >
           <div ref={bottomRef} />
           {loading && (
             <div className="flex justify-start mb-2 px-4">
