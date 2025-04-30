@@ -81,10 +81,8 @@ function Chat() {
 
   return (
     <div className="flex justify-center h-screen bg-gray-100 text-black">
-      <div className="flex flex-col w-full max-w-screen-sm bg-white">
-        <div className="px-4 pt-4">
-          <Header />
-        </div>
+      <div className="flex flex-col w-full max-w-screen-sm bg-white pt-16">
+        <Header />
         <div className="flex-1 overflow-y-auto px-4 py-2 flex flex-col-reverse">
           <div ref={bottomRef} />
           {loading && (
