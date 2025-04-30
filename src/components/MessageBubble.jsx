@@ -3,15 +3,17 @@ import React from 'react';
 function MessageBubble({ text, sender }) {
   const isUser = sender === 'user';
   const isError = sender === 'error';
-  const isDog = sender === 'dog';
+  const isDogOrBot = sender === 'dog' || sender === 'bot';
 
-  const label =
-    isUser ? '👣' :
-    isDogOrBot ? '🐾' :
-    isError ? '⚠️' :
-    '';
+  const label = isUser
+    ? '👣'
+    : isDogOrBot
+    ? '🐾'
+    : isError
+    ? '⚠️'
+    : '';
 
-  const labelClass = sender === 'bot' || isDog ? 'animate-pulse' : '';
+  const labelClass = isDogOrBot ? 'animate-pulse' : '';
 
   let bubbleStyle = 'px-4 py-2 rounded-2xl max-w-[80%] text-sm break-words';
   if (isUser) {
