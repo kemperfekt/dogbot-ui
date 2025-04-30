@@ -14,7 +14,6 @@ function Chat() {
   const [sessionId, setSessionId] = useState(null);
   const bottomRef = useRef(null);
   const textareaRef = useRef(null);
-  const textareaRef = useRef(null);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -72,7 +71,7 @@ function Chat() {
     const el = textareaRef.current;
     if (el) {
       el.style.height = 'auto';
-      el.style.height = Math.min(el.scrollHeight, 128) + 'px'; // max 5 Zeilen bei ca. 128px
+      el.style.height = Math.min(el.scrollHeight, 128) + 'px';
     }
   };
 
