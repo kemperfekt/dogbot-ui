@@ -3,37 +3,23 @@ import { Phone, Github } from 'lucide-react';
 
 function Header() {
   return (
-    <div
-      className="fixed top-0 left-0 right-0 z-10 bg-white border-b"
-      style={{ paddingTop: 'env(safe-area-inset-top)' }}
-    >
-      <div className="w-full max-w-screen-xl mx-auto px-4 py-2 md:px-8 md:py-3 flex items-center justify-between">
-        <div className="flex items-center space-x-2 min-w-0 overflow-hidden">
-          <img
-            src="/logo.png"
-            alt="Logo"
-            className="w-10 h-10 rounded-full flex-shrink-0"
-          />
-          <div className="flex flex-col truncate">
-            <span className="font-bold text-lg truncate">
-              Nasenblick Pfotenfunk
-            </span>
-            <span className="text-xs text-gray-500 truncate">
+    <div className="header-fixed" style={{ top: 0 }}>
+      <div className="header-inner">
+        <div style={{ display: 'flex', alignItems: 'center', minWidth: 0, gap: '0.5rem', flexGrow: 1, overflow: 'hidden' }}>
+          <img src="/logo.png" alt="Logo" style={{ width: 40, height: 40, borderRadius: '9999px', flexShrink: 0 }} />
+          <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <span style={{ fontWeight: 'bold', fontSize: '1.125rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Nasenblick Pfotenfunk</span>
+            <span style={{ fontSize: '0.75rem', color: '#6b7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               Der direkte Draht zu deinem Hund.
             </span>
           </div>
         </div>
-        <div className="flex items-center space-x-4">
-          <a
-            href="https://github.com/kemperfekt"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-          >
-            <Github className="text-gray-600 hover:text-black" size={22} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <a href="https://github.com/kemperfekt" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <Github size={22} color="#4b5563" />
           </a>
           <a href="tel:+491713022065" aria-label="Anrufen">
-            <Phone className="text-blue-500 hover:text-blue-700" size={22} />
+            <Phone size={22} color="#3b82f6" />
           </a>
         </div>
       </div>
