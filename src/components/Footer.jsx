@@ -22,7 +22,7 @@ function Footer({ input, onInputChange, onKeyDown, onSend }) {
         <textarea
           ref={textareaRef}
           rows={1}
-          className="flex-1 p-2 border rounded-md resize-none focus:outline-none text-sm text-black overflow-auto max-h-32"
+          className="flex-1 p-2 border rounded-md resize-none focus:outline-none text-base text-black overflow-auto max-h-32"
           value={input}
           onChange={e => {
             onInputChange(e.target.value);
