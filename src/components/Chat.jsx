@@ -16,7 +16,7 @@ function Chat() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    if (!sessionId) setSessionId(null); // Session bleibt null beim Neustart
+    if (!sessionId) setSessionId(null);
 
     const userMessage = { text: input, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
@@ -67,8 +67,10 @@ function Chat() {
 
   return (
     <div className="flex flex-col w-full h-screen bg-white text-black">
-      <Header />
-      <div className="flex-1 overflow-y-auto flex flex-col-reverse px-4 py-2 pt-16">
+      <div className="px-4 pt-4">
+        <Header />
+      </div>
+      <div className="flex-1 overflow-y-auto flex flex-col-reverse px-4 py-2 pt-8">
         <div ref={bottomRef} />
         {loading && (
           <div className="flex justify-start mb-2">
@@ -85,7 +87,7 @@ function Chat() {
           <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
         ))}
       </div>
-      <div className="p-2 border-t flex bg-white">
+      <div className="p-2 border-t flex bg-white px-4">
         <input
           type="text"
           className="flex-1 w-full p-2 border rounded-l-md focus:outline-none text-black text-sm"
