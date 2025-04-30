@@ -13,6 +13,7 @@ function Chat() {
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
   const bottomRef = useRef(null);
+  const textareaRef = useRef(null);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -59,18 +60,31 @@ function Chat() {
     }
   };
 
-  const handleKeyDown = (e) => e.key === 'Enter' && sendMessage();
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const autoResize = () => {
+    const el = textareaRef.current;
+    if (el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 128) + 'px'; // max 5 Zeilen bei ca. 128px
+    }
+  };
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
   return (
-    <div className="flex flex-col w-full h-screen bg-white text-black">
+    <div className="flex flex-col h-screen bg-white text-black">
       <div className="px-4 pt-4">
         <Header />
       </div>
-      <div className="flex-1 overflow-y-auto flex flex-col-reverse px-4 py-2 pt-8">
+      <div className="flex-1 overflow-y-auto px-4 py-2 flex flex-col-reverse">
         <div ref={bottomRef} />
         {loading && (
           <div className="flex justify-start mb-2">
@@ -87,21 +101,28 @@ function Chat() {
           <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
         ))}
       </div>
-      <div className="p-2 border-t flex bg-white px-4">
-        <input
-          type="text"
-          className="flex-1 w-full p-2 border rounded-l-md focus:outline-none text-black text-sm"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Schreib' hier..."
-        />
-        <button
-          className="p-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600"
-          onClick={sendMessage}
-        >
-          Wuff
-        </button>
+      <div className="px-4 py-2 border-t bg-white">
+        <div className="flex items-end gap-2">
+          <textarea
+            ref={textareaRef}
+            rows={1}
+            className="flex-1 p-2 border rounded-md resize-none focus:outline-none text-sm text-black overflow-auto max-h-32"
+            value={input}
+            onChange={(e) => {
+              setInput(e.target.value);
+              autoResize();
+            }}
+            onInput={autoResize}
+            onKeyDown={handleKeyDown}
+            placeholder="Schreib' hier..."
+          />
+          <button
+            className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex-shrink-0"
+            onClick={sendMessage}
+          >
+            Wuff
+          </button>
+        </div>
       </div>
     </div>
   );
