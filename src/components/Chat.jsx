@@ -80,19 +80,17 @@ function Chat() {
   }, [messages, loading]);
 
   return (
-    <div className="flex justify-center h-screen bg-gray-100 text-black">
-      <div className="flex flex-col w-full max-w-screen-sm bg-white pt-16">
+    <div className="flex justify-center bg-gray-100 text-black min-h-[100dvh]">
+      <div className="flex flex-col w-full max-w-screen-sm bg-white pt-0">
         <Header />
         <div className="flex-1 overflow-y-auto px-4 py-2 flex flex-col-reverse">
           <div ref={bottomRef} />
           {loading && (
-            <div className="flex justify-start mb-2">
-              <div className="px-4 py-2 rounded-lg max-w-xs bg-gray-300 text-gray-800">
-                <div className="typing-indicator">
-                  <span className="dot"></span>
-                  <span className="dot"></span>
-                  <span className="dot"></span>
-                </div>
+            <div className="flex justify-start mb-2 px-4">
+              <div className="typing-indicator">
+                <span className="dot"></span>
+                <span className="dot"></span>
+                <span className="dot"></span>
               </div>
             </div>
           )}
