@@ -28,7 +28,6 @@ However, ensure the backend (`dogbot-agent`) has its environment configured prop
 
 ## 📦 Tech Stack
 - React 18 – lightweight, component-based frontend library
-- Tailwind CSS 3.4 – utility-first CSS framework for rapid UI development
 - Fetch API – native JavaScript API for server communication
 - Create React App (CRA) – project scaffolding
 - Mobile-first, responsive design
