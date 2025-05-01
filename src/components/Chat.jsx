@@ -77,7 +77,7 @@ function Chat() {
         <Header />
         <div
           style={{
-            paddingTop: '72px',
+            paddingTop: '88px',
             paddingBottom: '88px',
             overflowY: 'auto',
             flex: 1,
