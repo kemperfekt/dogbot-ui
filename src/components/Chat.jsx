@@ -1,3 +1,4 @@
+// src/components/Chat.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 import Header from './Header';
@@ -13,12 +14,11 @@ function Chat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
+  const [agentStep, setAgentStep] = useState(0); // 0=Hund, 1=Mentor, 2=Coach, 3=Companion
   const bottomRef = useRef(null);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    if (!sessionId) setSessionId(null);
-
     const userMessage = { text: input, sender: 'user' };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
@@ -26,35 +26,55 @@ function Chat() {
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-      const response = await fetch(`${apiUrl}/${sessionId ? 'diagnose_continue' : 'diagnose_start'}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(sessionId ? { session_id: sessionId, answer: input } : { symptom_input: input }),
-      });
+
+      const response = await fetch(
+        sessionId ? `${apiUrl}/flow_continue` : `${apiUrl}/flow_start`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            sessionId
+              ? { session_id: sessionId, answer: input }
+              : { symptom: input }
+          ),
+        }
+      );
 
       const data = await response.json();
-      if (!sessionId) setSessionId(data.session_id);
 
-      const botMessage = {
-        text: data.message,
-        sender: data.message.startsWith('Fehler') ? 'error' : 'bot',
-      };
-      setMessages((prev) => [...prev, botMessage]);
+      if (!sessionId && data.session_id) {
+        setSessionId(data.session_id);
+      }
 
-      if (data.done || botMessage.sender === 'error') {
+      const newMessages = data.messages || [];
+      const nextMessage = newMessages[0]; // Nur den nächsten Agent anzeigen
+
+      if (nextMessage) {
+        setMessages((prev) => [...prev, nextMessage]);
+      }
+
+      setAgentStep((prev) => prev + 1);
+
+      if (
+        data.done ||
+        nextMessage?.sender === 'error' ||
+        agentStep >= 3 // Companion optional
+      ) {
         setSessionId(null);
+        setAgentStep(0);
         setMessages((prev) => [
           ...prev,
-          {
-            text: 'Bitte gib ein neues Symptom ein, um neu zu starten.',
-            sender: 'system',
-          },
+          { text: 'Bitte gib ein neues Symptom ein, um neu zu starten.', sender: 'system' },
         ]);
       }
-    } catch (error) {
-      console.error('Error fetching response:', error);
+    } catch (err) {
+      console.error('Error fetching response:', err);
       setSessionId(null);
-      setMessages((prev) => [...prev, { text: 'Serverfehler. Bitte später erneut versuchen.', sender: 'error' }]);
+      setAgentStep(0);
+      setMessages((prev) => [
+        ...prev,
+        { text: 'Serverfehler. Bitte später erneut versuchen.', sender: 'error' },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -75,28 +95,14 @@ function Chat() {
     <div className="chat-wrapper">
       <div className="chat-container">
         <Header />
-        <div
-          style={{
-            paddingTop: '88px',
-            paddingBottom: '88px',
-            overflowY: 'auto',
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column-reverse',
-          }}
-        >
+        <div style={{ paddingTop: 88, paddingBottom: 88, overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column-reverse' }}>
           <div ref={bottomRef} />
           {loading && <MessageBubble text="" sender="typing" />}
-          {[...messages].reverse().map((msg, idx) => (
-            <MessageBubble key={idx} text={msg.text} sender={msg.sender} />
+          {[...messages].reverse().map((msg, i) => (
+            <MessageBubble key={i} text={msg.text} sender={msg.sender} />
           ))}
         </div>
-        <Footer
-          input={input}
-          onInputChange={setInput}
-          onKeyDown={handleKeyDown}
-          onSend={sendMessage}
-        />
+        <Footer input={input} onInputChange={setInput} onKeyDown={handleKeyDown} onSend={sendMessage} />
       </div>
     </div>
   );

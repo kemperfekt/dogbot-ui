@@ -1,3 +1,5 @@
+// src/components/MessageBubble.jsx
+
 import React from 'react';
 
 function MessageBubble({ text, sender }) {
@@ -5,15 +7,23 @@ function MessageBubble({ text, sender }) {
   const isError = sender === 'error';
   const isDogOrBot = sender === 'dog' || sender === 'bot';
   const isTyping = sender === 'typing';
+  const isCoach = sender === 'coach';
+  const isMentor = sender === 'mentor';
 
+  // Emojis für die jeweiligen Sender
   const label = isUser
     ? '👣'
     : isDogOrBot || isTyping
     ? '🐾'
     : isError
     ? '⚠️'
+    : isCoach
+    ? '🚀'  // Emoji für den Coach
+    : isMentor
+    ? '🔮'  // Emoji für den Mentor
     : '';
 
+  // Style für das Emoji
   const labelStyle = {
     width: '24px',
     height: '24px',
@@ -28,6 +38,7 @@ function MessageBubble({ text, sender }) {
     marginRight: !isUser ? '8px' : '0',
   };
 
+  // Style für die Message Bubble
   const bubbleStyle = {
     padding: '8px 12px',
     borderRadius: '16px',
@@ -60,13 +71,23 @@ function MessageBubble({ text, sender }) {
         </div>
       )}
       {isTyping ? (
-        <div style={{ ...bubbleStyle, display: 'flex', gap: '4px' }}>
+        <div
+          style={{
+            ...bubbleStyle,
+            display: 'flex',
+            gap: '4px',
+            alignItems: 'center',
+            minHeight: '2.25rem', // gleiche Höhe wie Text mit Großbuchstabe
+          }}
+        >
           <span className="dot" />
           <span className="dot" />
           <span className="dot" />
         </div>
       ) : (
-        <div style={bubbleStyle}>{text}</div>
+        <div style={bubbleStyle}>
+          {text}
+        </div>
       )}
       {isUser && (
         <div style={labelStyle}>
