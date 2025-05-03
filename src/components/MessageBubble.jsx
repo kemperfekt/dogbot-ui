@@ -1,5 +1,3 @@
-// src/components/MessageBubble.jsx
-
 import React from 'react';
 
 function MessageBubble({ text, sender }) {
@@ -8,27 +6,24 @@ function MessageBubble({ text, sender }) {
   const isDogOrBot = sender === 'dog' || sender === 'bot';
   const isTyping = sender === 'typing';
   const isCoach = sender === 'coach';
-  const isMentor = sender === 'mentor';
 
   // Emojis für die jeweiligen Sender
   const label = isUser
     ? '👣'
     : isDogOrBot || isTyping
-    ? '🐾'
+    ? '🐶'
     : isError
     ? '⚠️'
     : isCoach
-    ? '🚀'  // Emoji für den Coach
-    : isMentor
-    ? '🔮'  // Emoji für den Mentor
+    ? '👨🏽‍⚕️'
     : '';
 
-  // Style für das Emoji
+  // Style für das Emoji (kleinerer Hintergrund)
   const labelStyle = {
-    width: '24px',
-    height: '24px',
+    width: '36px',
+    height: '36px',
     borderRadius: '9999px',
-    fontSize: '14px',
+    fontSize: '1.25rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -77,7 +72,7 @@ function MessageBubble({ text, sender }) {
             display: 'flex',
             gap: '4px',
             alignItems: 'center',
-            minHeight: '2.25rem', // gleiche Höhe wie Text mit Großbuchstabe
+            minHeight: '2.25rem',
           }}
         >
           <span className="dot" />
