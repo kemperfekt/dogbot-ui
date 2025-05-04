@@ -23,7 +23,7 @@ function MessageBubble({ text, sender }) {
     width: '36px',
     height: '36px',
     borderRadius: '9999px',
-    fontSize: '1.25rem',
+    fontSize: '1.5rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

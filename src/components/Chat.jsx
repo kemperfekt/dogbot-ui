@@ -1,21 +1,41 @@
-// src/components/Chat.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 import Header from './Header';
 import Footer from './Footer';
 
 function Chat() {
-  const [messages, setMessages] = useState([
-    {
-      text: 'Wuff! Schön, dass du hier bist. Beschreibe ein Verhalten und ich erkläre es Dir!',
-      sender: 'dog',
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
-  const [agentStep, setAgentStep] = useState(0); // 0=Hund, 1=Mentor, 2=Coach, 3=Companion
+  const [agentStep, setAgentStep] = useState(0); // 0=Hund, 1=Coach, 2=Companion
   const bottomRef = useRef(null);
+
+  // Initialer Begrüßungsaufruf bei Mount
+  useEffect(() => {
+    const fetchIntro = async () => {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      try {
+        const res = await fetch(`${apiUrl}/flow_intro`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const data = await res.json();
+        if (data.session_id) setSessionId(data.session_id);
+        if (data.messages) setMessages(data.messages);
+      } catch (err) {
+        console.error('Intro fetch failed:', err);
+        setMessages([
+          {
+            text: 'Willkommen! Leider konnte die Begrüßung nicht geladen werden.',
+            sender: 'error',
+          },
+        ]);
+      }
+    };
+
+    fetchIntro();
+  }, []);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -26,7 +46,6 @@ function Chat() {
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-
       const response = await fetch(
         sessionId ? `${apiUrl}/flow_continue` : `${apiUrl}/flow_start`,
         {
@@ -47,7 +66,7 @@ function Chat() {
       }
 
       const newMessages = data.messages || [];
-      const nextMessage = newMessages[0]; // Nur den nächsten Agent anzeigen
+      const nextMessage = newMessages[0]; // nur eine Antwort pro Schritt
 
       if (nextMessage) {
         setMessages((prev) => [...prev, nextMessage]);
@@ -58,7 +77,7 @@ function Chat() {
       if (
         data.done ||
         nextMessage?.sender === 'error' ||
-        agentStep >= 3 // Companion optional
+        agentStep >= 3
       ) {
         setSessionId(null);
         setAgentStep(0);
