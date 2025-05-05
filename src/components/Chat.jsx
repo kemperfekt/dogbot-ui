@@ -10,8 +10,7 @@ function Chat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
-  const [agentStep, setAgentStep] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false); // neuer Zustand
+  const [hasStarted, setHasStarted] = useState(false);
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -70,21 +69,15 @@ function Chat() {
       }
 
       const newMessages = data.messages || [];
-      const nextMessage = newMessages[0];
-
-      if (nextMessage) {
-        setMessages((prev) => [...prev, nextMessage]);
+      if (newMessages.length > 0) {
+        setMessages((prev) => [...prev, ...newMessages]);
       }
-
-      setAgentStep((prev) => prev + 1);
 
       if (
         data.done ||
-        nextMessage?.sender === 'error' ||
-        agentStep >= 3
+        newMessages.some((msg) => msg.sender === 'error')
       ) {
         setSessionId(null);
-        setAgentStep(0);
         setHasStarted(false);
         setMessages((prev) => [
           ...prev,
@@ -97,7 +90,6 @@ function Chat() {
     } catch (err) {
       console.error('Error fetching response:', err);
       setSessionId(null);
-      setAgentStep(0);
       setHasStarted(false);
       setMessages((prev) => [
         ...prev,
@@ -123,7 +115,16 @@ function Chat() {
     <div className="chat-wrapper">
       <div className="chat-container">
         <Header />
-        <div style={{ paddingTop: 88, paddingBottom: 88, overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column-reverse' }}>
+        <div
+          style={{
+            paddingTop: 88,
+            paddingBottom: 88,
+            overflowY: 'auto',
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column-reverse',
+          }}
+        >
           <div ref={bottomRef} />
           {loading && <MessageBubble text="" sender="typing" />}
           {[...messages].reverse().map((msg, i) => (
