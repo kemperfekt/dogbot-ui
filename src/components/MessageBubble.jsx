@@ -1,22 +1,29 @@
 import React from 'react';
 
 function MessageBubble({ text, sender }) {
-  const isUser = sender === 'user';
-  const isError = sender === 'error';
-  const isDogOrBot = sender === 'dog' || sender === 'bot';
-  const isTyping = sender === 'typing';
-  const isCoach = sender === 'coach';
+  // Convert sender to lowercase for consistent comparison
+  const senderLower = sender && sender.toLowerCase();
+  
+  // Check sender types
+  const isUser = senderLower === 'user';
+  const isError = senderLower === 'error';
+  const isDog = senderLower === 'dog';
+  const isTyping = senderLower === 'typing';
+  const isCoach = senderLower === 'coach';
+  const isCompanion = senderLower === 'companion';
+  const isSystem = senderLower === 'system';
 
-  // Emojis für die jeweiligen Sender
-  const label = isUser
-    ? '👣'
-    : isDogOrBot || isTyping
-    ? '🐶'
-    : isError
-    ? '⚠️'
-    : isCoach
-    ? '👨🏽‍⚕️'
-    : '';
+  // Determine emoji label based on sender type
+  const label = (() => {
+    if (isUser) return '👣';
+    if (isError) return '⚠️';
+    if (isCoach) return '👨🏽‍⚕️';
+    if (isCompanion) return '🧚🏼';
+    if (isTyping) return '🐶';
+    if (isDog) return '🐶';
+    if (isSystem) return '🔧';
+    return '❓'; // Fallback for unknown sender types
+  })();
 
   // Style für das Emoji (kleinerer Hintergrund)
   const labelStyle = {

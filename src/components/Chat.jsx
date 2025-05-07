@@ -1,5 +1,3 @@
-// --- src/components/Chat.jsx ---
-
 import React, { useState, useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 import Header from './Header';
@@ -23,7 +21,10 @@ function Chat() {
         });
         const data = await res.json();
         if (data.session_id) setSessionId(data.session_id);
-        if (data.messages) setMessages(data.messages);
+        if (data.messages) {
+          // Don't normalize sender to lowercase, keep original value
+          setMessages(data.messages);
+        }
       } catch (err) {
         console.error('Intro fetch failed:', err);
         setMessages([
@@ -70,7 +71,35 @@ function Chat() {
 
       const newMessages = data.messages || [];
       if (newMessages.length > 0) {
-        setMessages((prev) => [...prev, ...newMessages]);
+        let delay = 0;
+        // Don't modify sender case - use as is
+        newMessages.forEach((msg) => {
+          const [mainText, followUp] = msg.text.split('\n\n---\n\n');
+          const isSplit = !!followUp;
+
+          const readingSpeed = 100;
+          const baseDelayMs = Math.max(mainText.length * (1000 / readingSpeed), 1000);
+
+          console.log("[Bubble Debug]", msg.sender, mainText);
+          setTimeout(() => {
+            setMessages((prev) => [...prev, { ...msg, text: mainText }]);
+          }, delay);
+
+          if (isSplit) {
+            setTimeout(() => {
+              setMessages((prev) => [...prev, { sender: 'typing', text: '' }]);
+            }, delay + baseDelayMs - 1000);
+
+            setTimeout(() => {
+              setMessages((prev) =>
+                prev.filter((msg) => msg.sender !== 'typing')
+              );
+              setMessages((prev) => [...prev, { ...msg, text: followUp }]);
+            }, delay + baseDelayMs + 3000);
+          }
+
+          delay += isSplit ? baseDelayMs + 3000 : 1000;
+        });
       }
 
       if (
