@@ -58,8 +58,11 @@ function Chat() {
         headers: { 'Content-Type': 'application/json' },
         body,
       });
+      console.log('Fetch response:', response);
+      console.log('Status:', response.status);
 
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (!sessionId && data.session_id) {
         setSessionId(data.session_id);
@@ -70,11 +73,13 @@ function Chat() {
       }
 
       const newMessages = data.messages || [];
+      console.log('🔍 New messages:', newMessages);
       if (newMessages.length > 0) {
         let delay = 0;
         // Don't modify sender case - use as is
         newMessages.forEach((msg) => {
-          const [mainText, followUp] = msg.text.split('\n\n---\n\n');
+          const rawText = typeof msg.text === 'string' ? msg.text : '';
+          const [mainText, followUp] = rawText.split('\n\n---\n\n');
           const isSplit = !!followUp;
 
           const readingSpeed = 100;
@@ -102,10 +107,7 @@ function Chat() {
         });
       }
 
-      if (
-        data.done ||
-        newMessages.some((msg) => msg.sender === 'error')
-      ) {
+      if (data.done) {
         setSessionId(null);
         setHasStarted(false);
         setMessages((prev) => [
