@@ -79,34 +79,17 @@ function Chat() {
       console.log('🔍 New messages:', newMessages);
       if (newMessages.length > 0) {
         let delay = 0;
-        // Don't modify sender case - use as is
+        const readingSpeed = 100;
+
         newMessages.forEach((msg) => {
-          const rawText = typeof msg.text === 'string' ? msg.text : '';
-          const [mainText, followUp] = rawText.split('\n\n---\n\n');
-          const isSplit = !!followUp;
+          const textLength = msg.text?.length || 0;
+          const baseDelayMs = Math.max(textLength * (1000 / readingSpeed), 1000);
 
-          const readingSpeed = 100;
-          const baseDelayMs = Math.max(mainText.length * (1000 / readingSpeed), 1000);
-
-          console.log("[Bubble Debug]", msg.sender, mainText);
           setTimeout(() => {
-            setMessages((prev) => [...prev, { ...msg, text: mainText }]);
+            setMessages((prev) => [...prev, msg]);
           }, delay);
 
-          if (isSplit) {
-            setTimeout(() => {
-              setMessages((prev) => [...prev, { sender: 'typing', text: '' }]);
-            }, delay + baseDelayMs - 1000);
-
-            setTimeout(() => {
-              setMessages((prev) =>
-                prev.filter((msg) => msg.sender !== 'typing')
-              );
-              setMessages((prev) => [...prev, { ...msg, text: followUp }]);
-            }, delay + baseDelayMs + 3000);
-          }
-
-          delay += isSplit ? baseDelayMs + 3000 : 1000;
+          delay += baseDelayMs;
         });
       }
 
