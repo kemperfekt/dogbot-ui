@@ -88,7 +88,7 @@ function MessageBubble({ text, sender }) {
         </div>
       ) : (
         <div style={bubbleStyle}>
-          {text}
+          {(typeof text === 'string' ? text : '')}
         </div>
       )}
       {isUser && (

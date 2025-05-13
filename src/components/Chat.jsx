@@ -82,32 +82,19 @@ function Chat() {
         const readingSpeed = 100;
 
         newMessages.forEach((msg, index) => {
-          const textLength = msg.text?.length || 0;
-          const baseDelayMs = Math.max(textLength * (1000 / readingSpeed), 1000);
+          const text = typeof msg === 'string' ? msg : (msg.text || msg.content || '');
+          const delayMs = Math.max(text.length * (1000 / readingSpeed), 1000);
 
-          // Erste Nachricht sofort anzeigen
-          if (index === 0) {
-            setTimeout(() => {
-              setMessages((prev) => [...prev, msg]);
-            }, delay);
-            delay += baseDelayMs;
-          }
+          setTimeout(() => {
+            if (index > 0) setLoading(true);
+          }, delay);
 
-          // Tippen simulieren vor jeder weiteren Nachricht
-          else {
-            setTimeout(() => {
-              setLoading(true); // aktiviert Typing-Bubble
-            }, delay);
+          setTimeout(() => {
+            setLoading(false);
+            setMessages((prev) => [...prev, { ...msg, text }]);
+          }, delay + (index > 0 ? 1000 : 0));
 
-            delay += 1000; // Tippdauer z. B. 1 Sekunde
-
-            setTimeout(() => {
-              setLoading(false);
-              setMessages((prev) => [...prev, msg]);
-            }, delay);
-
-            delay += baseDelayMs;
-          }
+          delay += delayMs + (index > 0 ? 1000 : 0);
         });
       }
 
@@ -156,7 +143,7 @@ function Chat() {
           <div ref={bottomRef} />
           {loading && <MessageBubble text="" sender="typing" />}
           {[...messages].reverse().map((msg, i) => {
-            console.log("🧩 Einzelne Nachricht:", msg);
+            
             return (
               <MessageBubble key={i} text={msg.text} sender={msg.sender} />
             );
