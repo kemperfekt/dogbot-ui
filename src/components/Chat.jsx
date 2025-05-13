@@ -53,6 +53,9 @@ function Chat() {
         ? JSON.stringify({ symptom: input, session_id: sessionId })
         : JSON.stringify({ session_id: sessionId, answer: input });
 
+      console.log("📨 Sende Nachricht an:", url);
+      console.log("📨 Payload:", body);
+
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
