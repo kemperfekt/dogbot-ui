@@ -114,13 +114,6 @@ function Chat() {
       if (data.done) {
         setSessionId(null);
         setHasStarted(false);
-        setMessages((prev) => [
-          ...prev,
-          {
-            text: 'Bitte gib ein neues Symptom ein, um neu zu starten.',
-            sender: 'system',
-          },
-        ]);
       }
     } catch (err) {
       console.error('Error fetching response:', err);
@@ -162,9 +155,12 @@ function Chat() {
         >
           <div ref={bottomRef} />
           {loading && <MessageBubble text="" sender="typing" />}
-          {[...messages].reverse().map((msg, i) => (
-            <MessageBubble key={i} text={msg.text} sender={msg.sender} />
-          ))}
+          {[...messages].reverse().map((msg, i) => {
+            console.log("🧩 Einzelne Nachricht:", msg);
+            return (
+              <MessageBubble key={i} text={msg.text} sender={msg.sender} />
+            );
+          })}
         </div>
         <Footer
           input={input}
