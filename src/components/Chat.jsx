@@ -81,15 +81,33 @@ function Chat() {
         let delay = 0;
         const readingSpeed = 100;
 
-        newMessages.forEach((msg) => {
+        newMessages.forEach((msg, index) => {
           const textLength = msg.text?.length || 0;
           const baseDelayMs = Math.max(textLength * (1000 / readingSpeed), 1000);
 
-          setTimeout(() => {
-            setMessages((prev) => [...prev, msg]);
-          }, delay);
+          // Erste Nachricht sofort anzeigen
+          if (index === 0) {
+            setTimeout(() => {
+              setMessages((prev) => [...prev, msg]);
+            }, delay);
+            delay += baseDelayMs;
+          }
 
-          delay += baseDelayMs;
+          // Tippen simulieren vor jeder weiteren Nachricht
+          else {
+            setTimeout(() => {
+              setLoading(true); // aktiviert Typing-Bubble
+            }, delay);
+
+            delay += 1000; // Tippdauer z. B. 1 Sekunde
+
+            setTimeout(() => {
+              setLoading(false);
+              setMessages((prev) => [...prev, msg]);
+            }, delay);
+
+            delay += baseDelayMs;
+          }
         });
       }
 
