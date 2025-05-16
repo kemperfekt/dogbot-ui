@@ -8,7 +8,6 @@ function Chat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
-  const [hasStarted, setHasStarted] = useState(false);
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -48,10 +47,8 @@ function Chat() {
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-      const url = !hasStarted ? `${apiUrl}/flow_start` : `${apiUrl}/flow_continue`;
-      const body = !hasStarted
-        ? JSON.stringify({ symptom: input, session_id: sessionId })
-        : JSON.stringify({ session_id: sessionId, answer: input });
+      const url = `${apiUrl}/flow_step`;
+      const body = JSON.stringify({ session_id: sessionId, message: input });
 
       console.log("📨 Sende Nachricht an:", url);
       console.log("📨 Payload:", body);
@@ -69,10 +66,6 @@ function Chat() {
 
       if (!sessionId && data.session_id) {
         setSessionId(data.session_id);
-      }
-
-      if (!hasStarted) {
-        setHasStarted(true);
       }
 
       const newMessages = data.messages || [];
@@ -100,12 +93,10 @@ function Chat() {
 
       if (data.done) {
         setSessionId(null);
-        setHasStarted(false);
       }
     } catch (err) {
       console.error('Error fetching response:', err);
       setSessionId(null);
-      setHasStarted(false);
       setMessages((prev) => [
         ...prev,
         { text: 'Serverfehler. Bitte später erneut versuchen.', sender: 'error' },
