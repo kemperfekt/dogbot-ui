@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
-function Footer({ input, onInputChange, onKeyDown, onSend }) {
+function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
   const textareaRef = useRef(null);
 
   const autoResize = () => {
@@ -19,7 +19,10 @@ function Footer({ input, onInputChange, onKeyDown, onSend }) {
     <div className="footer-fixed" style={{ bottom: 0 }}>
       <div className="footer-inner">
         <textarea
-          ref={textareaRef}
+          ref={(el) => {
+            textareaRef.current = el;
+            if (inputRef) inputRef.current = el;
+          }}
           rows={1}
           inputMode="text"
           value={input}

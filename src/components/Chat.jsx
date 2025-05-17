@@ -8,6 +8,7 @@ function Chat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
+  const inputRef = useRef(null);
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -36,6 +37,10 @@ function Chat() {
     };
 
     fetchIntro();
+  }, []);
+
+  useEffect(() => {
+    inputRef.current?.focus();
   }, []);
 
   const sendMessage = async () => {
@@ -145,6 +150,7 @@ function Chat() {
           onInputChange={setInput}
           onKeyDown={handleKeyDown}
           onSend={sendMessage}
+          inputRef={inputRef}
         />
       </div>
     </div>

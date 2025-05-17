@@ -8,7 +8,7 @@ function Header() {
         <div style={{ display: 'flex', alignItems: 'center', minWidth: 0, gap: '0.5rem', flexGrow: 1, overflow: 'hidden' }}>
           <img src="/logo.png" alt="Logo" style={{ width: 40, height: 40, borderRadius: '9999px', flexShrink: 0 }} />
           <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            <span style={{ fontWeight: 'bold', fontSize: '1.125rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Nasenblick Pfotenfunk</span>
+            <span style={{ fontWeight: 'bold', fontSize: '1.125rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Nasenblick Wuffchat</span>
             <span style={{ fontSize: '0.75rem', color: '#6b7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               Der direkte Draht zu deinem Hund.
             </span>
