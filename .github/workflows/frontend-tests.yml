@@ -3,9 +3,9 @@ name: Frontend Build and Lint
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "feature/dog-agentic"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "feature/dog-agentic"]
 
 jobs:
   build:
