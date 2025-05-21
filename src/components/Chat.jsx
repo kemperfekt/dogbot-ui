@@ -123,12 +123,12 @@ function Chat() {
   }, [messages, loading]);
 
   return (
-    <div className="flex justify-center min-h-screen overflow-x-hidden bg-[#FBEED5] text-[#184567] font-[Figtree]">
-      <div className="w-full max-w-xl flex flex-col flex-grow">
+    <div className="flex flex-col min-h-screen bg-background text-primary font-sans overflow-hidden">
+      <div className="w-full max-w-xl flex flex-col flex-grow mx-auto">
         <Header />
-        <div className="flex flex-col-reverse gap-2 pb-24 pt-24 overflow-y-auto flex-1 px-4">
+        <div className="flex-1 overflow-y-auto px-4 pt-6 pb-[54px] flex flex-col-reverse gap-2">
           <div ref={bottomRef} />
-          {loading && <MessageBubble text="" sender="typing" />}
+          {loading && <MessageBubble text="" sender="dog" />}
           {[...messages].reverse().map((msg, i) => (
             <MessageBubble key={i} text={msg.text} sender={msg.sender} />
           ))}
@@ -139,6 +139,7 @@ function Chat() {
           onKeyDown={handleKeyDown}
           onSend={sendMessage}
           inputRef={inputRef}
+          autoGrow={true}
         />
       </div>
     </div>

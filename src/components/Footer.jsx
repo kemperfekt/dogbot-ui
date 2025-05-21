@@ -7,7 +7,7 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
     const el = textareaRef.current;
     if (el) {
       el.style.height = 'auto';
-      el.style.height = Math.min(el.scrollHeight, 128) + 'px';
+      el.style.height = Math.min(el.scrollHeight, 160) + 'px';
     }
   };
 
@@ -16,7 +16,7 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
   }, [input]);
 
   return (
-    <div className="bg-[#FBEED5] text-[#184567] px-4 py-2 border-t border-[#ddd]">
+    <div className="fixed bottom-0 left-0 right-0 z-20 bg-background text-primary px-4 py-2 border-t border-gray-300">
       <div className="flex items-end gap-2">
         <textarea
           ref={(el) => {
@@ -32,9 +32,13 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
           }}
           onKeyDown={onKeyDown}
           placeholder="Schreib' hier..."
-          style={{ fontSize: '16px' }}
+          className="flex-1 resize-none overflow-auto rounded-md border border-gray-300 p-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary max-h-40"
         />
-        <button type="button" onClick={onSend}>
+        <button
+          type="button"
+          onClick={onSend}
+          className="px-3 py-2 rounded-md bg-accent text-white text-sm hover:bg-secondary flex-shrink-0"
+        >
           Wuff
         </button>
       </div>
