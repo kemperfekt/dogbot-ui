@@ -1,4 +1,5 @@
 import React from 'react';
+import hundIcon from '../assets/hund_icon.png';
 
 function MessageBubble({ text, sender }) {
   // Convert sender to lowercase for consistent comparison
@@ -13,17 +14,21 @@ function MessageBubble({ text, sender }) {
   const isCompanion = senderLower === 'companion';
   const isSystem = senderLower === 'system';
 
-  // Determine emoji label based on sender type
-  const label = (() => {
-    if (isUser) return '👣';
-    if (isError) return '⚠️';
-    if (isCoach) return '👨🏽‍⚕️';
-    if (isCompanion) return '🧚🏼';
-    if (isTyping) return '🐶';
-    if (isDog) return '🐶';
-    if (isSystem) return '🔧';
-    return '❓'; // Fallback for unknown sender types
-  })();
+  // Neue Label-Komponente
+  const renderLabel = () => {
+    if (isDog || isTyping) {
+      return <img src={hundIcon} alt="Hund" style={{ width: 36, height: 36, borderRadius: '9999px' }} />;
+    }
+
+    const label = isUser ? '👣'
+      : isError ? '⚠️'
+      : isCoach ? '👨🏽‍⚕️'
+      : isCompanion ? '🧚🏼'
+      : isSystem ? '🔧'
+      : '❓';
+
+    return <span>{label}</span>;
+  };
 
   // Style für das Emoji (kleinerer Hintergrund)
   const labelStyle = {
@@ -69,7 +74,7 @@ function MessageBubble({ text, sender }) {
     >
       {!isUser && (
         <div style={labelStyle}>
-          <span>{label}</span>
+          {renderLabel()}
         </div>
       )}
       {isTyping ? (
@@ -93,7 +98,7 @@ function MessageBubble({ text, sender }) {
       )}
       {isUser && (
         <div style={labelStyle}>
-          <span>{label}</span>
+          {renderLabel()}
         </div>
       )}
     </div>

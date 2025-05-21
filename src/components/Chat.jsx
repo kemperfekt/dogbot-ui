@@ -123,27 +123,15 @@ function Chat() {
   }, [messages, loading]);
 
   return (
-    <div className="chat-wrapper">
-      <div className="chat-container">
+    <div className="flex justify-center min-h-screen overflow-x-hidden bg-[#FBEED5] text-[#184567] font-[Figtree]">
+      <div className="w-full max-w-xl flex flex-col flex-grow">
         <Header />
-        <div
-          style={{
-            paddingTop: 88,
-            paddingBottom: 88,
-            overflowY: 'auto',
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column-reverse',
-          }}
-        >
+        <div className="flex flex-col-reverse gap-2 pb-24 pt-24 overflow-y-auto flex-1 px-4">
           <div ref={bottomRef} />
           {loading && <MessageBubble text="" sender="typing" />}
-          {[...messages].reverse().map((msg, i) => {
-            
-            return (
-              <MessageBubble key={i} text={msg.text} sender={msg.sender} />
-            );
-          })}
+          {[...messages].reverse().map((msg, i) => (
+            <MessageBubble key={i} text={msg.text} sender={msg.sender} />
+          ))}
         </div>
         <Footer
           input={input}

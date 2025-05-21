@@ -16,8 +16,8 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
   }, [input]);
 
   return (
-    <div className="footer-fixed" style={{ bottom: 0 }}>
-      <div className="footer-inner">
+    <div className="bg-[#FBEED5] text-[#184567] px-4 py-2 border-t border-[#ddd]">
+      <div className="flex items-end gap-2">
         <textarea
           ref={(el) => {
             textareaRef.current = el;
@@ -37,6 +37,10 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
         <button type="button" onClick={onSend}>
           Wuff
         </button>
+      </div>
+      <div className="text-xs mt-2 w-full text-center space-x-4">
+        <a href="https://www.wuffchat.de/public/datenschutz.html" className="underline hover:text-[#10304f]">Datenschutz</a>
+        <a href="https://www.wuffchat.de/public/impressum.html" className="underline hover:text-[#10304f]">Impressum</a>
       </div>
     </div>
   );
