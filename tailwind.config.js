@@ -12,6 +12,15 @@ module.exports = {
         fontFamily: {
           sans: ['Figtree', 'sans-serif'],
         },
+        keyframes: {
+          livelyBounce: {
+            '0%, 100%': { transform: 'translateY(0)' },
+            '50%': { transform: 'translateY(-8px)' },
+          },
+        },
+        animation: {
+          livelyBounce: 'livelyBounce 0.9s infinite ease-in-out',
+        },
       },
     },
     plugins: [],

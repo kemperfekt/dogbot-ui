@@ -16,7 +16,7 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
   }, [input]);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-20 bg-background text-primary px-4 py-2 border-t border-gray-300">
+    <div className="fixed bottom-0 left-0 right-0 z-20 bg-primary text-background px-4 py-2 border-t border-gray-300">
       <div className="flex items-end gap-2">
         <textarea
           ref={(el) => {
@@ -32,7 +32,7 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
           }}
           onKeyDown={onKeyDown}
           placeholder="Schreib' hier..."
-          className="flex-1 resize-none overflow-auto rounded-md border border-gray-300 p-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary max-h-40"
+          className="flex-1 resize-none overflow-auto rounded-md border border-gray-300 p-2 text-sm bg-white text-black focus:outline-none focus:ring-2 focus:ring-primary max-h-40"
         />
         <button
           type="button"
@@ -43,8 +43,8 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
         </button>
       </div>
       <div className="text-xs mt-2 w-full text-center space-x-4">
-        <a href="/public/datenschutz.html" className="underline hover:text-[#10304f]">Datenschutz</a>
-        <a href="/public/impressum.html" className="underline hover:text-[#10304f]">Impressum</a>
+        <a href="/public/datenschutz.html" className="underline text-background/80 hover:text-background">Datenschutz</a>
+        <a href="/public/impressum.html" className="underline text-background/80 hover:text-background">Impressum</a>
       </div>
     </div>
   );

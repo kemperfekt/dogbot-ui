@@ -19,20 +19,19 @@ function MessageBubble({ text, sender }) {
     if (isDog || isTyping) {
       return <img src={hundIcon} alt="Hund" className="w-9 h-9 rounded-full" />;
     }
-
-    const label = isUser ? '👣'
-      : isError ? '⚠️'
+    if (isUser) {
+      return <span>👣</span>;
+    }
+    const label = isError ? '⚠️'
       : isCoach ? '👨🏽‍⚕️'
       : isCompanion ? '🧚🏼'
       : isSystem ? '🔧'
       : '❓';
-
     return <span>{label}</span>;
   };
 
   // Tailwind classes for label (emoji)
-  const labelStyle = "w-9 h-9 rounded-full text-xl flex items-center justify-center flex-shrink-0" +
-    (isUser ? " bg-blue-200 ml-2" : " bg-blue-100 mr-2");
+  const labelStyle = "w-9 h-9 rounded-full text-xl flex items-center justify-center flex-shrink-0 bg-background";
 
   // Tailwind classes for message bubble
   const bubbleClass = `px-3 py-2 rounded-xl max-w-[80%] text-sm break-words ${
@@ -55,12 +54,14 @@ function MessageBubble({ text, sender }) {
       )}
       {isTyping ? (
         <div
-          className="px-3 py-2 rounded-xl max-w-[80%] text-sm break-words bg-primary text-white flex items-center gap-2 min-h-[32px] z-10"
+          className="flex items-center space-x-2 p-3 max-w-[70%] bg-white rounded-xl shadow-sm"
           aria-label="Antwort wird geschrieben"
         >
-          <span className="w-2.5 h-2.5 bg-white rounded-full animate-bounce [animation-delay:-0.3s]" />
-          <span className="w-2.5 h-2.5 bg-white rounded-full animate-bounce [animation-delay:-0.15s]" />
-          <span className="w-2.5 h-2.5 bg-white rounded-full animate-bounce" />
+          <div className="flex space-x-1">
+            <span className="dot bg-primary w-1.5 h-1.5 rounded-full animate-livelyBounce [animation-delay:-0.3s]"></span>
+            <span className="dot bg-primary w-1.5 h-1.5 rounded-full animate-livelyBounce [animation-delay:-0.15s]"></span>
+            <span className="dot bg-primary w-1.5 h-1.5 rounded-full animate-livelyBounce"></span>
+          </div>
         </div>
       ) : (
         <div className={bubbleClass}>
