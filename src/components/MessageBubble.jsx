@@ -1,5 +1,5 @@
 import React from 'react';
-import hundIcon from '../assets/hund_icon.png';
+import hundIcon from '../assets/hund_icon_free.png';
 
 function MessageBubble({ text, sender }) {
   // Convert sender to lowercase for consistent comparison
@@ -17,7 +17,7 @@ function MessageBubble({ text, sender }) {
   // Neue Label-Komponente
   const renderLabel = () => {
     if (isDog || isTyping) {
-      return <img src={hundIcon} alt="Hund" style={{ width: 36, height: 36, borderRadius: '9999px' }} />;
+      return <img src={hundIcon} alt="Hund" className="w-9 h-9 rounded-full" />;
     }
 
     const label = isUser ? '👣'
@@ -30,74 +30,44 @@ function MessageBubble({ text, sender }) {
     return <span>{label}</span>;
   };
 
-  // Style für das Emoji (kleinerer Hintergrund)
-  const labelStyle = {
-    width: '36px',
-    height: '36px',
-    borderRadius: '9999px',
-    fontSize: '1.5rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    backgroundColor: isUser ? '#bfdbfe' : '#dbeafe',
-    marginLeft: isUser ? '8px' : '0',
-    marginRight: !isUser ? '8px' : '0',
-  };
+  // Tailwind classes for label (emoji)
+  const labelStyle = "w-9 h-9 rounded-full text-xl flex items-center justify-center flex-shrink-0" +
+    (isUser ? " bg-blue-200 ml-2" : " bg-blue-100 mr-2");
 
-  // Style für die Message Bubble
-  const bubbleStyle = {
-    padding: '8px 12px',
-    borderRadius: '16px',
-    maxWidth: '80%',
-    fontSize: '0.875rem',
-    wordBreak: 'break-word',
-    backgroundColor: isUser
-      ? '#3b82f6'
-      : isError
-      ? '#ef4444'
-      : '#f3f4f6',
-    color: isUser || isError ? '#fff' : '#111827',
-    border: !isUser && !isError ? '1px solid #e5e7eb' : 'none',
-  };
+  // Tailwind classes for message bubble
+  const bubbleClass = `px-3 py-2 rounded-xl max-w-[80%] text-sm break-words ${
+    isUser ? 'bg-primary text-background' :
+    isError ? 'bg-red-500 text-white' :
+    'bg-gray-100 text-gray-900 border border-gray-200'
+  }`;
 
   return (
     <div
-      className="message-row"
+      className="message-row flex items-start mb-2 px-3"
       style={{
-        display: 'flex',
         justifyContent: isUser ? 'flex-end' : 'flex-start',
-        alignItems: 'flex-start',
-        marginBottom: '8px',
-        padding: '0 12px',
       }}
     >
       {!isUser && (
-        <div style={labelStyle}>
+        <div className={labelStyle}>
           {renderLabel()}
         </div>
       )}
       {isTyping ? (
         <div
-          style={{
-            ...bubbleStyle,
-            display: 'flex',
-            gap: '4px',
-            alignItems: 'center',
-            minHeight: '2.25rem',
-          }}
+          className={`${bubbleClass} flex gap-1 items-center min-h-[2.25rem]`}
         >
           <span className="dot" />
           <span className="dot" />
           <span className="dot" />
         </div>
       ) : (
-        <div style={bubbleStyle}>
+        <div className={bubbleClass}>
           {(typeof text === 'string' ? text : '')}
         </div>
       )}
       {isUser && (
-        <div style={labelStyle}>
+        <div className={labelStyle}>
           {renderLabel()}
         </div>
       )}

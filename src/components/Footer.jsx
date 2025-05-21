@@ -39,8 +39,8 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
         </button>
       </div>
       <div className="text-xs mt-2 w-full text-center space-x-4">
-        <a href="https://www.wuffchat.de/public/datenschutz.html" className="underline hover:text-[#10304f]">Datenschutz</a>
-        <a href="https://www.wuffchat.de/public/impressum.html" className="underline hover:text-[#10304f]">Impressum</a>
+        <a href="/public/datenschutz.html" className="underline hover:text-[#10304f]">Datenschutz</a>
+        <a href="/public/impressum.html" className="underline hover:text-[#10304f]">Impressum</a>
       </div>
     </div>
   );
