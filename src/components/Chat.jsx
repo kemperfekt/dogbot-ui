@@ -126,7 +126,7 @@ function Chat() {
     <div className="flex flex-col min-h-screen bg-background text-primary font-sans overflow-hidden">
       <div className="w-full max-w-xl flex flex-col flex-grow mx-auto">
         <Header />
-        <div className="flex-1 overflow-y-auto px-4 pt-6 pb-[54px] flex flex-col-reverse gap-2">
+        <div className="flex-1 overflow-y-auto px-4 pt-6 pb-[60px] flex flex-col-reverse gap-2">
           <div ref={bottomRef} />
           {loading && <MessageBubble text="" sender="typing" />}
           {[...messages].reverse().map((msg, i) => (

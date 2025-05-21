@@ -1,5 +1,7 @@
 import React from 'react';
 import hundIcon from '../assets/hund_icon_free.png';
+import companionIcon from '../assets/companion_icon.png';
+import humanIcon from '../assets/human_icon.png';
 
 function MessageBubble({ text, sender }) {
   // Convert sender to lowercase for consistent comparison
@@ -20,11 +22,13 @@ function MessageBubble({ text, sender }) {
       return <img src={hundIcon} alt="Hund" className="w-9 h-9 rounded-full" />;
     }
     if (isUser) {
-      return <span>👣</span>;
+      return <img src={humanIcon} alt="User" className="w-9 h-9 rounded-full" />;
+    }
+    if (isCompanion) {
+      return <img src={companionIcon} alt="Companion" className="w-9 h-9 rounded-full" />;
     }
     const label = isError ? '⚠️'
       : isCoach ? '👨🏽‍⚕️'
-      : isCompanion ? '🧚🏼'
       : isSystem ? '🔧'
       : '❓';
     return <span>{label}</span>;
