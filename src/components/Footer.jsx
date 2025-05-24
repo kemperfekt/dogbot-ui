@@ -32,7 +32,7 @@ function Footer({ input, onInputChange, onKeyDown, onSend, inputRef }) {
           }}
           onKeyDown={onKeyDown}
           placeholder="Schreib' hier..."
-          className="flex-1 resize-none overflow-auto rounded-md border border-gray-300 p-2 text-sm bg-white text-black focus:outline-none focus:ring-2 focus:ring-primary max-h-40"
+          className="flex-1 resize-none overflow-auto rounded-md border border-gray-300 p-2 text-base bg-white text-black focus:outline-none focus:ring-2 focus:ring-primary max-h-40"
         />
         <button
           type="button"
