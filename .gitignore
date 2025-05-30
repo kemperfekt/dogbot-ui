@@ -20,6 +20,9 @@ dist-ssr/
 .env.local
 .env.*.local
 
+# Misc
+.coverage
+
 # Editor settings
 .vscode/
 !.vscode/extensions.json
